@@ -225,6 +225,13 @@ int main(int argc, char** argv)
 		return 0;
 	}
 
+	std::string filename = parser.get<std::string>("o");
+	if (filename.size() > FILENAME_MAX)
+	{
+		std::cout << "Filename too long" << std::endl;
+		return -1;
+	}
+
 	srand(time(NULL));
 	if (!BeginOLE())
 		return 1;
@@ -299,8 +306,8 @@ int main(int argc, char** argv)
 	DWORD dwRegKey;
 	gpITTSCentral->Register((void*)&gNotify, IID_ITTSNotifySink, &dwRegKey);
 
-	WCHAR wszFile[17] = L"";
-	MultiByteToWideChar(CP_ACP, 0, parser.get<std::string>("o").c_str(), -1, wszFile, sizeof(wszFile) / sizeof(WCHAR));
+	WCHAR wszFile[FILENAME_MAX] = L"";
+	MultiByteToWideChar(CP_ACP, 0, filename.c_str(), -1, wszFile, FILENAME_MAX);
 	if (gpIAF->Set(wszFile, 1)) 
 	{
 		std::cout << "Setting output file failed" << std::endl;
