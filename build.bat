@@ -1,0 +1,1 @@
+cl sapi4.cpp ole32.lib user32.lib Ws2_32.lib /std:c++14 /EHsc /MT -I"C:\Program Files (x86)\Microsoft Speech SDK\Include"
